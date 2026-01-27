@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include <locale>
 
 #include "lab2_1.h"
 #include "lab2_2.h"
@@ -17,11 +18,7 @@
 #include "lab2_9.h"
 #include "lab2_10.h"
 
-void SetUtf8Console() {
-#ifdef _WIN32
-  system("chcp 65001 > nul");
-#endif
-}
+
 
 // Вспомогательные функции для ввода
 template<typename T>
@@ -396,7 +393,11 @@ void Task10() {
 }
 
 int main() {
-  SetUtf8Console();
+  try {
+    std::locale::global(std::locale(""));
+    std::cout.imbue(std::locale());
+  } catch (...) {
+  }
 
   std::cout << "Лабораторная работа 2\n";
   std::cout << "Выполнение всех заданий\n";
@@ -459,4 +460,5 @@ int main() {
   } while (choice != 0);
   
   return 0;
+
 }
