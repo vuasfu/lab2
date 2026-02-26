@@ -66,20 +66,85 @@ void task2(const std::vector<int>& V, std::list<int>& L) {
 ```
 
 # Тестирование
-
+<img width="315" height="43" alt="image" src="https://github.com/user-attachments/assets/625cdeaa-efea-4e87-b3ac-ed36e472c869" />
+<img width="556" height="392" alt="image" src="https://github.com/user-attachments/assets/6909b305-6c8e-4986-b493-1d6821f05521" />
+<img width="558" height="440" alt="image" src="https://github.com/user-attachments/assets/a2f3ead7-eb2b-4877-ac85-50238f7ab1d7" />
 
 # Задание 3
 
+Поменять местами первую половину списка L1 и вторую половину списка L2.
 
+1. Запросить четные размеры для списков L1 и L2.
+2. Заполнить списки.
+3. Найти середины обоих списков.
+4. Использовать splice для перемещения элементов:
+4.1 Переместить вторую половину L2 в начало L1.
+4.2 Переместить первую половину L1 в конец L2.
 
+Реализация
 
+```cpp
+void task3(std::list<int>& L1, std::list<int>& L2) {
+  auto L1_mid = std::next(L1.begin(), (L1.size() / 2));
+  auto L2_mid = std::next(L2.begin(), (L2.size() / 2));
+  auto L1_begin = L1.begin();
 
+  L1.splice(L1.begin(), L2, L2_mid, L2.end());
+  L2.splice(L2.end(), L1, L1_begin, L1_mid);
 
+  std::cout << "Список 1: ";
+  for (std::list<int>::const_iterator it = L1.cbegin(); it != L1.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+  std::cout << "Список 2: ";
+  for (std::list<int>::const_iterator it = L2.cbegin(); it != L2.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+}
+```
 
+# Тестирование
+<img width="536" height="115" alt="image" src="https://github.com/user-attachments/assets/d5f48fbf-e6a3-49ee-b8ee-0a1314f5b77d" />
+<img width="543" height="346" alt="image" src="https://github.com/user-attachments/assets/9cad20e3-072a-4e76-be8b-a4ec4706c35b" />
 
+# Задача 4
 
+Записать в текстовый файл все слова из исходного файла, длина которых не превосходит K.
 
+1. Запросить K > 0.
+2. Запросить имена входного и выходного файлов.
+3. Открыть файлы.
+4. Создать итераторы: istream_iterator для чтения слов, ostream_iterator для записи.
+5. Использовать remove_copy_if с лямбдой, проверяющей длину слова.
 
+Реализация
+
+```cpp
+void task4(int K, const std::string& name1, const std::string& name2) {
+  std::ifstream input(name1);
+  std::ofstream output(name2);
+
+  if (!input.is_open() || !output.is_open()) {
+    std::cerr << "Невозможно открыть файл\n";
+    return;
+  }
+
+  std::istream_iterator<std::string> begin(input);
+  std::istream_iterator<std::string> end;
+  std::ostream_iterator<std::string> out(output, "\n");
+
+  std::remove_copy_if(
+    begin,
+    end,
+    out,
+    [K](const std::string& word) {
+      return word.size() > K;
+    });
+}
+```
+
+# Тестирование
+![Uploading image.png…]()
 
 
 
