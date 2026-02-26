@@ -144,6 +144,7 @@ void task4(int K, const std::string& name1, const std::string& name2) {
 ```
 
 # Тестирование
+<img width="257" height="342" alt="image" src="https://github.com/user-attachments/assets/e28a19b4-98f1-4c3c-98a5-c24b0ac4ff80" />
 <img width="560" height="154" alt="image" src="https://github.com/user-attachments/assets/dd44d182-ff42-4c96-a867-9e7f0c7ab284" />
 <img width="344" height="97" alt="image" src="https://github.com/user-attachments/assets/e988a32c-5dde-40ab-b6d9-9413fbf8ed58" />
 <img width="260" height="191" alt="image" src="https://github.com/user-attachments/assets/e84ff245-3618-4cce-ad1c-91cde2e2ec13" />
@@ -281,13 +282,74 @@ void task8(std::list<int>& L, std::vector<double>& V) {
 
 # Тестирование
 
+<img width="573" height="169" alt="image" src="https://github.com/user-attachments/assets/e3df8ef8-e608-4d7e-9e9d-c98b73278b4d" />
+<img width="601" height="222" alt="image" src="https://github.com/user-attachments/assets/c13fe070-9ad9-4bfe-a7bd-11e6803d8166" />
+
+# Задача 9
+Найти количество векторов, которые содержат все элементы вектора V0.
+
+1. Запросить размер V0 и заполнить его.
+2. Запросить количество проверяемых векторов.
+3. Для каждого вектора запросить размер (не меньше размера V0) и заполнить его.
+4. Создать множество set0 из V0.
+5. Для каждого вектора создать множество set_i и проверить includes(set_i, set0).
+6. Подсчитать количество успешных проверок.
+
+Реализация
+
+```cpp
+int task9(std::vector<int>& V0, std::vector<std::vector<int>>& vectors) {
+  std::set<int> set0(V0.begin(), V0.end());
+  int count = 0;
+  for (auto it = vectors.begin(); it != vectors.end(); ++it) {
+    const std::vector<int>& Vi = *it;
+    std::set<int> set_i(Vi.begin(), Vi.end());
+    if (std::includes(set_i.begin(), set_i.end(), set0.begin(), set0.end())) {
+      ++count;
+    }
+  }
+  return count;
+}
+```
+
+# Тестирование
+<img width="590" height="528" alt="image" src="https://github.com/user-attachments/assets/b49ddb34-f6d5-4472-bf14-211ca3cf7931" />
+
+# Задание 10 
+
+Определить суммарную длину слов, начинающихся с одной и той же буквы.
 
 
 
+1. Запросить количество слов.
+2. Ввести слова заглавными английскими буквами.
+3. Создать map<char, int> M.
+4. Для каждого слова:
+4.1 Пропустить пустые строки.
+4.2 Взять первую букву.
+4.3 Добавить длину слова в M[first].
+5. Вывести буквы в алфавитном порядке и суммарную длину.
 
+Реализация
 
+```cpp
+void task10(const std::vector<std::string>& V) {
+  std::map<char, int> M;
+  for (auto it = V.cbegin(); it != V.cend(); ++it) {
+    if (it->empty()) {
+      continue;
+    }
+    char first = (*it)[0];
+    M[first] += it->size();
+  }
 
+  std::cout << "Результат:\n";
+  for (auto it = M.cbegin(); it != M.cend(); ++it) {
+    std::cout << it->first << " " << it->second << "\n";
+  }
+}
+```
 
-
-
+#Тестирование
+<img width="545" height="334" alt="image" src="https://github.com/user-attachments/assets/50f134f9-11ad-4c0e-ad55-4be0881921af" />
 
