@@ -144,17 +144,142 @@ void task4(int K, const std::string& name1, const std::string& name2) {
 ```
 
 # Тестирование
-![Uploading image.png…]()
+<img width="560" height="154" alt="image" src="https://github.com/user-attachments/assets/dd44d182-ff42-4c96-a867-9e7f0c7ab284" />
+<img width="344" height="97" alt="image" src="https://github.com/user-attachments/assets/e988a32c-5dde-40ab-b6d9-9413fbf8ed58" />
+<img width="260" height="191" alt="image" src="https://github.com/user-attachments/assets/e84ff245-3618-4cce-ad1c-91cde2e2ec13" />
 
 
+# Задание 5
+
+Удалить последний нулевой элемент дека.
+
+1. Запросить размер дека и заполнить его.
+2. Использовать find с обратными итераторами для поиска нуля: std::find(D.rbegin(), D.rend(), 0).
+3. Если ноль найден, удалить его с помощью erase и base().
+4. Вывести измененный дек.
+
+Реализация:
+
+```cpp
+void task5(std::deque<int>& D) {
+  auto r = std::find(D.rbegin(), D.rend(), 0);
+  D.erase(std::prev(r.base()));
+
+  std::cout << "Дек после изменения: ";
+  for (std::deque<int>::const_iterator it = D.cbegin(); it != D.cend(); ++it){
+    std::cout << *it << " ";
+  }
+}
+```
+
+# Тестирование
+
+<img width="562" height="225" alt="image" src="https://github.com/user-attachments/assets/964e5a10-f92b-4f84-a555-63ba484bca5c" />
+<img width="569" height="137" alt="image" src="https://github.com/user-attachments/assets/20b30aa7-bbc0-4878-a88a-66bb64db039b" />
+
+# Задание 6
+
+Добавить в начало каждого вектора 5 элементов со значениями A, а в конец — 5 элементов со значениями B.
+
+1. Запросить числа A и B.
+2. Запросить размеры векторов V1 и V2 и заполнить их.
+3. Для V1 использовать fill_n с inserter и back_inserter.
+4. Для V2 использовать insert в начало и конец.
+5. Вывести оба вектора.
 
 
+Реализация:
 
+```cpp
+void task6(int A, int B, std::vector<int>& V1, std::vector<int>& V2) {
+  std::fill_n(inserter(V1, V1.begin()), 5, A);
+  std::fill_n(back_inserter(V1), 5, B);
 
+  V2.insert(V2.begin(), 5, A);
+  V2.insert(V2.end(), 5, B);
 
+  std::cout << "Вектор V1 после изменений: ";
+  for (std::vector<int>::const_iterator it = V1.cbegin(); it != V1.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+  std::cout << "Вектор V2 после изменений: ";
+  for (std::vector<int>::const_iterator it = V2.cbegin(); it != V2.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+}
+```
 
+# Тестирование
+<img width="778" height="379" alt="image" src="https://github.com/user-attachments/assets/de4bdf37-f805-4d74-bd02-8c791b786b78" />
+<img width="555" height="183" alt="image" src="https://github.com/user-attachments/assets/5a809800-b926-4c8e-9d0d-2725fff1c297" />
 
+# Задание 7
 
+Отсортировать все элементы вектора по возрастанию: вторая половина сортируется, затем слияние половин.
+
+1. Запросить четный размер вектора.
+2. Заполнить вектор (первая половина уже отсортирована).
+3. Найти середину: auto mid = std::next(V.begin(), V.size() / 2).
+4. Проверить, что первая половина отсортирована.
+5. Отсортировать вторую половину: std::sort(mid, V.end()).
+6. Выполнить слияние: std::inplace_merge(V.begin(), mid, V.end()).
+7. Вывести результат.
+
+```cpp
+void task7(std::vector<int>& V) {
+  auto mid = std::next(V.begin(), (V.size() / 2));
+
+  if (!std::is_sorted(V.begin(), mid)) {
+    std::cerr << "Первая половина должна быть уже отсортирована.\n";
+    return;
+  }
+
+  std::sort(mid, V.end());
+  std::inplace_merge(V.begin(), mid, V.end());
+
+  std::cout << "Вектор после сортировки и слияния: ";
+  for (auto it = V.cbegin(); it != V.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+}
+```
+
+# Тестирование
+
+<img width="540" height="154" alt="image" src="https://github.com/user-attachments/assets/64473e54-8ad8-45d5-8abb-fc2c43e185f4" />
+<img width="572" height="277" alt="image" src="https://github.com/user-attachments/assets/8b5520f4-ac05-4d5e-94d3-bd1bf4e16638" />
+<img width="572" height="274" alt="image" src="https://github.com/user-attachments/assets/bd4b4d66-ae03-430d-8bd3-4980c9d6ed02" />
+
+# Задание 8
+
+Получить вектор средних арифметических для всех пар соседних элементов списка.
+
+1. Запросить размер списка (минимум 2) и заполнить его.
+2. Очистить результирующий вектор V.
+3. Использовать adjacent_difference с лямбдой (a + b) / 2.0.
+4. Удалить первый элемент вектора (он лишний).
+5. Вывести результат.
+
+```cpp
+void task8(std::list<int>& L, std::vector<double>& V) {
+  V.clear();
+  std::adjacent_difference(
+    L.begin(),
+    L.end(),
+    std::back_inserter(V),
+    [](int a, int b) {
+      return (a + b) / 2.0;
+    });
+
+  V.erase(V.begin()); // Удаляем лишний первый элемент
+  std::cout << "Вектор средних значений: ";
+  for (auto it = V.cbegin(); it != V.cend(); ++it) {
+    std::cout << *it << " ";
+  }
+}
+```
+
+# Тестирование
 
 
 
